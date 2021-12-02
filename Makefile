@@ -1,0 +1,30 @@
+
+container ?= cwedgwood/ulogd:latest
+
+default: container-test
+
+%.tar.bz2: %.tar
+	pbzip2 -9f $^
+
+opt-netfilter.tar: .iid
+	docker run --rm $$(cat .iid) tar -c /opt/netfilter/ > $@
+
+# this will block, kill it when satisfied it's doing something useful
+container-test: .iid
+	-docker kill ulogd-test
+	docker run \
+		--name=ulogd-test \
+		-v $(PWD)/logs-flows/:/var/log/flows/:rw \
+		-v $(PWD)/test-ulogd.conf:/opt/netfilter/etc/ulogd.conf:ro \
+		--privileged=true --net=host -e TERM=dumb --rm -it $$(cat .iid) /opt/netfilter/sbin/ulogd --verbose
+
+.iid: Makefile Dockerfile
+	docker build --iidfile=.iid .
+
+container-release: .iid
+	docker tag $$(cat .iid) $(container)
+	bash -c "( set -o pipefail ; docker push $(container) | cat )"
+
+clean:
+	rm -f *~ .iid opt-netfilter.tar.bz2
+	sudo rm -rf logs-flows
