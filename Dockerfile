@@ -1,7 +1,7 @@
 
 FROM debian:bullseye-slim as common
 # Useful common things; be minimalist then cleanup afterwards to avoid large layers
-RUN ( apt-get update && apt-get install --no-install-recommends -y iproute2 jq time rsyslog less strace psmisc procps nvi pbzip2 && apt-get clean && find /var/lib/apt/ -type f -print0 | xargs -r0 rm -v )
+RUN ( apt-get update && apt-get -y dist-upgrade && apt-get install --no-install-recommends -y iproute2 iputils-ping jq time rsyslog less strace psmisc procps nvi pbzip2 iptables conntrack libjansson4 && apt-get clean && find /var/lib/apt/ -type f -print0 | xargs -r0 rm -v )
 
 FROM common as build
 # Recompliation (less common); don't need to be overly conservative
@@ -56,9 +56,4 @@ RUN find /opt/netfilter/ -type f -ls
 FROM common AS deployable
 
 COPY --from=build /opt/netfilter/   /opt/netfilter/
-# hacky but whatever, this avoids apt and the like in a minimalist
-# sense for now
-COPY --from=build /usr/lib/x86_64-linux-gnu/libjansson.so.4* /usr/lib/x86_64-linux-gnu/
-
-# to run tests we need these
 RUN mkdir -p /opt/netfilter/etc/
