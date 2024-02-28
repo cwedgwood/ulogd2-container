@@ -34,7 +34,7 @@ RUN git clone git://git.netfilter.org/libnetfilter_acct
 RUN ( cd libnetfilter_acct && git checkout libnetfilter_acct-1.0.3 && autoreconf -fi && PKG_CONFIG_PATH=/opt/netfilter/lib/pkgconfig ./configure --prefix=/opt/netfilter/ --enable-static )
 RUN ( cd libnetfilter_acct && time make -j12 && make install )
 
-# ulogd2:                  ulogd-2.0.8
+# ulogd2:                  ulogd2-2.0.8
 RUN git clone git://git.netfilter.org/ulogd2
 RUN ( cd ulogd2 && git checkout ulogd-2.0.8 && autoreconf -fi && PKG_CONFIG_PATH=/opt/netfilter/lib/pkgconfig ./configure --prefix=/opt/netfilter/ --enable-static )
 RUN ( cd ulogd2 && time make -j12 && make install )

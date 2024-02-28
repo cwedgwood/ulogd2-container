@@ -1,7 +1,7 @@
 
 export BUILDKIT_PROGRESS=plain
 
-container ?= cwedgwood/ulogd:latest
+container ?= cwedgwood/ulogd2:latest
 
 default: container-tag
 
@@ -13,15 +13,15 @@ opt-netfilter.tar: .iid
 
 # this will block, kill it when satisfied it's doing something useful
 container-test: .iid
-	-docker kill ulogd-test
+	-docker kill ulogd2-test
 	mkdir -p logs-flows
 	rm -f logs-flows/fifo
 	mkfifo logs-flows/fifo
 	docker run \
-		--name=ulogd-test \
+		--name=ulogd2-test \
 		-v $(PWD)/logs-flows/:/var/log/flows/:rw \
-		-v $(PWD)/test-ulogd.conf:/opt/netfilter/etc/ulogd.conf:ro \
-		--privileged=true --net=host -e TERM=dumb --rm -it $$(cat .iid) /opt/netfilter/sbin/ulogd --verbose
+		-v $(PWD)/test-ulogd2.conf:/opt/netfilter/etc/ulogd2.conf:ro \
+		--privileged=true --net=host -e TERM=dumb --rm -it $$(cat .iid) /opt/netfilter/sbin/ulogd2 --verbose
 
 .iid: Makefile Dockerfile
 	docker build --iidfile=$@ .
