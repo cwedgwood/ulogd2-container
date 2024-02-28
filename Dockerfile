@@ -1,5 +1,5 @@
 
-FROM debian:bullseye-slim as common
+FROM debian:bookworm-slim as common
 # Useful common things; be minimalist then cleanup afterwards to avoid large layers
 RUN ( apt-get update && apt-get -y dist-upgrade && apt-get install --no-install-recommends -y iproute2 iputils-ping jq time rsyslog less strace psmisc procps nvi pbzip2 iptables conntrack libjansson4 && apt-get clean && find /var/lib/apt/ -type f -print0 | xargs -r0 rm -v )
 
