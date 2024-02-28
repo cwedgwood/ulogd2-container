@@ -20,8 +20,8 @@ container-test: .iid
 	docker run \
 		--name=ulogd2-test \
 		-v $(PWD)/logs-flows/:/var/log/flows/:rw \
-		-v $(PWD)/test-ulogd2.conf:/opt/netfilter/etc/ulogd2.conf:ro \
-		--privileged=true --net=host -e TERM=dumb --rm -it $$(cat .iid) /opt/netfilter/sbin/ulogd2 --verbose
+		-v $(PWD)/test-ulogd.conf:/opt/netfilter/etc/ulogd.conf:ro \
+		--privileged=true --net=host -e TERM=dumb --rm -it $$(cat .iid) /opt/netfilter/sbin/ulogd --verbose
 
 .iid: Makefile Dockerfile
 	docker build --iidfile=$@ .
@@ -33,5 +33,6 @@ container-tag: Makefile .iid
 	docker tag $$(cat .iid) $(container)
 
 clean:
+	-docker kill ulogd2-test
 	rm -f *~ .iid opt-netfilter.tar.bz2
 	sudo rm -rf logs-flows
