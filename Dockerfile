@@ -9,22 +9,22 @@ RUN ( apt-get update && apt-get install -y git make autoconf automake libtool pk
 
 WORKDIR /build
 
-# libmnl:		   libmnl-1.0.4
+# libmnl:		   libmnl-1.0.5
 RUN git clone git://git.netfilter.org/libmnl
-RUN ( cd libmnl && git checkout libmnl-1.0.4 && autoreconf -fi && PKG_CONFIG_PATH=/opt/netfilter/lib/pkgconfig ./configure --prefix=/opt/netfilter/ --enable-static )
+RUN ( cd libmnl && git checkout libmnl-1.0.5 && autoreconf -fi && PKG_CONFIG_PATH=/opt/netfilter/lib/pkgconfig ./configure --prefix=/opt/netfilter/ --enable-static )
 RUN ( cd libmnl && time make -j12 && make install )
 
-# libnfnetlink:		   libnfnetlink-1.0.1
+# libnfnetlink:		   libnfnetlink-1.0.2
 RUN git clone git://git.netfilter.org/libnfnetlink
-RUN ( cd libnfnetlink && git checkout libnfnetlink-1.0.1 && autoreconf -fi && PKG_CONFIG_PATH=/opt/netfilter/lib/pkgconfig ./configure --prefix=/opt/netfilter/ --enable-static )
+RUN ( cd libnfnetlink && git checkout libnfnetlink-1.0.2 && autoreconf -fi && PKG_CONFIG_PATH=/opt/netfilter/lib/pkgconfig ./configure --prefix=/opt/netfilter/ --enable-static )
 RUN ( cd libnfnetlink && time make -j12 && make install )
 
-# libnetfilter_conntrack:  libnetfilter_conntrack-1.0.8-25-gdbfa07f
+# libnetfilter_conntrack:  libnetfilter_conntrack-1.0.9
 RUN git clone git://git.netfilter.org/libnetfilter_conntrack
-RUN ( cd libnetfilter_conntrack && git checkout libnetfilter_conntrack-1.0.8 && autoreconf -fi && PKG_CONFIG_PATH=/opt/netfilter/lib/pkgconfig ./configure --prefix=/opt/netfilter/ --enable-static )
+RUN ( cd libnetfilter_conntrack && git checkout libnetfilter_conntrack-1.0.9 && autoreconf -fi && PKG_CONFIG_PATH=/opt/netfilter/lib/pkgconfig ./configure --prefix=/opt/netfilter/ --enable-static )
 RUN ( cd libnetfilter_conntrack && time make -j12 && make install )
 
-# libnetfilter_log:        libnetfilter_log-1.0.2-1-ge920203
+# libnetfilter_log:        libnetfilter_log-1.0.2
 RUN git clone git://git.netfilter.org/libnetfilter_log
 RUN ( cd libnetfilter_log && git checkout libnetfilter_log-1.0.2 && autoreconf -fi && PKG_CONFIG_PATH=/opt/netfilter/lib/pkgconfig ./configure --prefix=/opt/netfilter/ --enable-static )
 RUN ( cd libnetfilter_log && time make -j12 && make install )
@@ -34,9 +34,9 @@ RUN git clone git://git.netfilter.org/libnetfilter_acct
 RUN ( cd libnetfilter_acct && git checkout libnetfilter_acct-1.0.3 && autoreconf -fi && PKG_CONFIG_PATH=/opt/netfilter/lib/pkgconfig ./configure --prefix=/opt/netfilter/ --enable-static )
 RUN ( cd libnetfilter_acct && time make -j12 && make install )
 
-# ulogd2:                  ulogd-2.0.7-33-ga8cedca
+# ulogd2:                  ulogd-2.0.8
 RUN git clone git://git.netfilter.org/ulogd2
-RUN ( cd ulogd2 && git checkout 5f9628c9273815b6e560603427fe86118e7cb5bb && autoreconf -fi && PKG_CONFIG_PATH=/opt/netfilter/lib/pkgconfig ./configure --prefix=/opt/netfilter/ --enable-static )
+RUN ( cd ulogd2 && git checkout ulogd-2.0.8 && autoreconf -fi && PKG_CONFIG_PATH=/opt/netfilter/lib/pkgconfig ./configure --prefix=/opt/netfilter/ --enable-static )
 RUN ( cd ulogd2 && time make -j12 && make install )
 
 # cleanup dev/installed stuff that we don't need for running the final

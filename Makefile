@@ -1,4 +1,6 @@
 
+export BUILDKIT_PROGRESS=plain
+
 container ?= cwedgwood/ulogd:latest
 
 default: container-tag
